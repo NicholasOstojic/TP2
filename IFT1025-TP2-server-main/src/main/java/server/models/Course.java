@@ -2,6 +2,9 @@ package server.models;
 
 import java.io.Serializable;
 
+/**
+ * creation des nom et session
+ */
 public class Course implements Serializable {
 
     private String name;
@@ -45,5 +48,13 @@ public class Course implements Serializable {
                 ", code=" + code +
                 ", session=" + session +
                 '}';
+    }
+
+    /**
+     * ici on cherche le nom rechercher dans la classe client
+     * @return retourn le nom rechercher dans la class client
+     */
+    public String getNom() {
+        return name;
     }
 }

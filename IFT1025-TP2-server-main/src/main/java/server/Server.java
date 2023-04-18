@@ -10,9 +10,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * la classe server qui gere les exception, se qui dirige les input du client et la relation client-server
+ */
 public class Server {
 
+    /**
+     * le string inscrire
+     */
     public final static String REGISTER_COMMAND = "INSCRIRE";
+    /**
+     * le string charger
+     */
     public final static String LOAD_COMMAND = "CHARGER";
     private final ServerSocket server;
     private Socket client;
@@ -20,12 +29,21 @@ public class Server {
     private ObjectOutputStream objectOutputStream;
     private final ArrayList<EventHandler> handlers;
 
+    /**
+     * une autre exeption
+     * @param port place ou le server est heberger
+     * @throws IOException une autre exeption
+     */
     public Server(int port) throws IOException {
         this.server = new ServerSocket(port, 1);
         this.handlers = new ArrayList<EventHandler>();
         this.addEventHandler(this::handleEvents);
     }
 
+    /**
+     * ajout une commande
+     * @param h c'est la commande qui sera ajouter
+     */
     public void addEventHandler(EventHandler h) {
         this.handlers.add(h);
     }
@@ -36,6 +54,9 @@ public class Server {
         }
     }
 
+    /**
+     * le sign in, gerer le client
+     */
     public void run() {
         while (true) {
             try {
@@ -52,6 +73,11 @@ public class Server {
         }
     }
 
+    /**
+     * attend pour la prochaine commande
+     * @throws IOException les exeption
+     * @throws ClassNotFoundException une exeption quand une classe rechercher n'est pas trouver
+     */
     public void listen() throws IOException, ClassNotFoundException {
         String line;
         if ((line = this.objectInputStream.readObject().toString()) != null) {
@@ -62,6 +88,11 @@ public class Server {
         }
     }
 
+    /**
+     * cree des paire de commande et argument
+     * @param line commande total de commande et argument
+     * @return retour la paire fonction finale
+     */
     public Pair<String, String> processCommandLine(String line) {
         String[] parts = line.split(" ");
         String cmd = parts[0];
